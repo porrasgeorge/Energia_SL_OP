@@ -22,10 +22,10 @@ PreciosPeriodos_c <- c(Precios[1],
                      Precios[3] - Precios[1],
                      Precios[1])
 
-SL = read.csv("SL_Potencias2.CSV", stringsAsFactors = F)
-names(SL)[1] = 'Hora'
-names(SL)[2] = 'P1'
-names(SL)[3] = 'P2'
+SL <- read.csv("SL_Potencias2.CSV", stringsAsFactors = F)
+names(SL)[1] <- 'Hora'
+names(SL)[2] <- 'P1'
+names(SL)[3] <- 'P2'
 SL$Hora <- as.POSIXct(SL$Hora, 
                       format = "%d.%m.%Y %H:%M") - 60
 
