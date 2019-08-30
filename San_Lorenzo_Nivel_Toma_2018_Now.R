@@ -25,7 +25,21 @@ SL_Toma03 <- SL_Toma %>%
          Flag = Flag03) %>%
   select(Hora, Nivel, Flag)
 rm(SL_Toma)
-t3 <- rbind(SL_Toma01, SL_Toma02, SL_Toma03)
+
+NivelToma <- rbind(SL_Toma01, SL_Toma02, SL_Toma03)
 rm(SL_Toma01, SL_Toma02, SL_Toma03)
 
-sum(is.na(t3))
+NivelTomaPegados <- NivelToma %>% filter(Flag != 1)
+for (i in 1:length((NivelTomaPegados$Hora) - 1)) {
+  if ((NivelTomaPegados$Hora[i] + 300) == NivelTomaPegados$Hora[i+1])
+    {
+    print(i)
+  }
+}
+
+length(filter(NivelToma, Flag != 1)$Flag)
+
+
+
+
+
