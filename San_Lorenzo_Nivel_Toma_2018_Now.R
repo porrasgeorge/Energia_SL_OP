@@ -24,22 +24,35 @@ SL_Toma03 <- SL_Toma %>%
          Nivel = Nivel03,
          Flag = Flag03) %>%
   select(Hora, Nivel, Flag)
-rm(SL_Toma)
+#rm(SL_Toma)
 
 NivelToma <- rbind(SL_Toma01, SL_Toma02, SL_Toma03)
-rm(SL_Toma01, SL_Toma02, SL_Toma03)
+rm(SL_Toma, SL_Toma01, SL_Toma02, SL_Toma03)
 
-NivelTomaPegados <- NivelToma %>% filter(Flag != 1)
-for (i in 1:length((NivelTomaPegados$Hora) - 1)) {
-  if ((NivelTomaPegados$Hora[i] + 300) == NivelTomaPegados$Hora[i+1])
-    {
-    print(i)
+NivelTomaTelemFailed <- NivelToma %>% filter(Flag != 1)
+NivelTomaTelemFailed <- cbind(NivelTomaTelemFailed, rep(0, nrow(NivelTomaTelemFailed)))
+names(NivelTomaTelemFailed)[4] = "Rank"
+
+
+n = 1
+for (i in 1:(nrow(NivelTomaTelemFailed)- 1)) {
+  NivelTomaTelemFailed$Rank[i] = n
+  if ((NivelTomaTelemFailed$Hora[i] + 300) != NivelTomaTelemFailed$Hora[i+1]){
+    n = n+1
   }
 }
 
-length(filter(NivelToma, Flag != 1)$Flag)
 
 
 
-
+# si se desea eliminar los telemetry failed del punto anterior
+# TelemFailedRankingGroup <- NivelTomaTelemFailed %>% 
+#   group_by(Rank) %>% 
+#   summarise(Hora = min(Hora), minutos = 5*n()) %>% 
+#   filter(minutos > 30)
+# 
+# ABorrar <- NivelTomaTelemFailed %>% filter(Rank %in% TelemFailedRankingGroup$Rank)%>% select(Hora)
+# NivelToma <- NivelToma %>% filter(!Hora %in% (ABorrar$Hora))
+# NivelToma %>% filter(Flag != 1)
+# 
 
